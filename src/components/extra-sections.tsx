@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Gavel, Star, Quote, X, ChevronDown, Home, TrendingDown, Users, Award, MapPin, ArrowUpRight } from "lucide-react";
 import hero from "@/assets/hero-joao-pessoa.jpg";
 import { WHATSAPP } from "@/lib/public-business";
+import { propertyListings, propertyContactUrl } from "@/lib/property-listings";
 
 const ALERTS = [
   { name: "Carlos M.", place: "Manaíra", what: "Apartamento 3 quartos", saving: "38%" },
@@ -61,12 +62,6 @@ export function AuctionAlerts() {
   );
 }
 
-const propertyCategories = [
-  { title: "Apartamentos", detail: "Opções para morar ou investir", position: "center 45%" },
-  { title: "Casas", detail: "Oportunidades em diferentes bairros", position: "center 60%" },
-  { title: "Imóveis para investimento", detail: "Encontre oportunidades de leilão", position: "center 35%" },
-];
-
 export function PropertyGallery() {
   return (
     <section id="imoveis" className="mx-auto max-w-7xl px-5 py-20 md:py-24" aria-labelledby="imoveis-title">
@@ -84,31 +79,32 @@ export function PropertyGallery() {
       </div>
 
       <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {propertyCategories.map((property) => (
+        {propertyListings.map((property) => (
           <article key={property.title} className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-red">
-            <div className="relative h-56 overflow-hidden bg-ink">
-              <img
-                src={hero}
-                alt={`Imagem ilustrativa de ${property.title.toLowerCase()} em João Pessoa`}
-                loading="lazy"
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                style={{ objectPosition: property.position }}
-              />
+            <a href={`/imoveis/${property.id}`} className="relative block h-56 overflow-hidden bg-ink" aria-label={`Ver detalhes de ${property.title}`}>
+              <img src={property.photos[0]?.src ?? hero} alt={property.photos[0]?.alt ?? `Imagem ilustrativa de ${property.title}`} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
               <span className="absolute left-4 top-4 rounded-full bg-ink/85 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-ink-foreground backdrop-blur">
-                Consulte disponibilidade
+                Exemplo demonstrativo
               </span>
-            </div>
+            </a>
             <div className="p-6">
-              <h3 className="text-xl font-bold">{property.title}</h3>
-              <p className="mt-2 text-muted-foreground">{property.detail}</p>
-              <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><MapPin className="h-4 w-4 text-primary" /> João Pessoa e região</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-primary">{property.category}</p>
+              <h3 className="mt-2 text-xl font-bold"><a href={`/imoveis/${property.id}`} className="transition hover:text-primary">{property.title}</a></h3>
+              <p className="mt-2 text-muted-foreground">{property.summary}</p>
+              <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><MapPin className="h-4 w-4 text-primary" /> {property.location}</p>
               <a
-                href={WHATSAPP}
+                href={`/imoveis/${property.id}`}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-red px-5 py-3 font-bold text-primary-foreground shadow-red transition hover:-translate-y-0.5 hover:brightness-110"
+              >
+                Ver detalhes e fotos <ArrowUpRight className="h-4 w-4" />
+              </a>
+              <a
+                href={propertyContactUrl(property.title)}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/30 px-5 py-3 font-bold text-primary transition hover:bg-gradient-red hover:text-primary-foreground"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/30 px-5 py-3 font-bold text-primary transition hover:bg-primary/5"
               >
-                Tenho interesse <ArrowUpRight className="h-4 w-4" />
+                Consultar pelo WhatsApp <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
           </article>
