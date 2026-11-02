@@ -18,9 +18,9 @@ import {
 import logo from "@/assets/max-corretor-logo.png.asset.json";
 import hero from "@/assets/hero-joao-pessoa.jpg";
 import { AuctionAlerts, Results, Testimonials, Faq } from "@/components/extra-sections";
-
-const WHATSAPP = "https://wa.me/5583988828706?text=Ol%C3%A1%2C%20Max!%20Quero%20saber%20sobre%20im%C3%B3veis%20de%20leil%C3%A3o.";
-const INSTAGRAM = "https://instagram.com/maxcorretorpb";
+import { useWebMCP } from "use-webmcp-tool";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
+import { WHATSAPP, INSTAGRAM, publicServices, servicesSummary, contactSummary, pageSections, validatedSection } from "@/lib/public-business";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,14 +50,8 @@ const nav = [
   { href: "#contato", label: "Contato" },
 ];
 
-const services = [
-  { icon: Gavel, title: "Arrematação", text: "Acompanhamos você em cada lance, do edital ao auto de arrematação." },
-  { icon: FileSearch, title: "Documentação", text: "Análise completa de matrícula, débitos e pendências do imóvel." },
-  { icon: ShieldCheck, title: "Análise de riscos", text: "Avaliamos ocupação, dívidas e riscos jurídicos antes de você investir." },
-  { icon: FileCheck2, title: "Regularização", text: "Cuidamos do registro, imissão na posse e transferência." },
-  { icon: Landmark, title: "Financiamento", text: "Orientação para financiar seu imóvel de leilão com segurança." },
-  { icon: KeyRound, title: "Até as chaves", text: "Assessoria completa até você estar com o imóvel em mãos." },
-];
+const serviceIcons = [Gavel, FileSearch, ShieldCheck, FileCheck2, Landmark, KeyRound];
+const services = publicServices.map((service, index) => ({ ...service, icon: serviceIcons[index] ?? Gavel }));
 
 const steps = [
   { n: "01", title: "Conversa inicial", text: "Entendemos seu objetivo: morar, investir ou revender." },
@@ -118,6 +112,40 @@ function Index() {
   const [open, setOpen] = useState(false);
   const typed = useTypewriter(HERO_PHRASES);
 
+  function navigateSection(value: unknown) {
+    const section = validatedSection(value);
+    const target = document.getElementById(section);
+    if (!target) throw new Error("Esta seção não está disponível na página.");
+    setOpen(false);
+    window.location.hash = section;
+    target.scrollIntoView({ behavior: "instant", block: "start" });
+    return `Seção aberta: ${section}.`;
+  }
+
+  useWebMCP({
+    name: "list_services",
+    description: "Consulta os serviços apresentados nesta página do MAX Corretor.",
+    annotations: { readOnlyHint: true },
+    execute: () => runWebMCPTool("list_services", servicesSummary),
+  });
+  useWebMCP({
+    name: "get_contact",
+    description: "Consulta os contatos públicos exibidos nesta página, sem enviar mensagens.",
+    annotations: { readOnlyHint: true },
+    execute: () => runWebMCPTool("get_contact", contactSummary),
+  });
+  useWebMCP({
+    name: "navigate_section",
+    description: "Abre uma seção desta página: serviços, etapas, vantagens, depoimentos, dúvidas ou contato.",
+    inputSchema: {
+      type: "object",
+      properties: { section: { type: "string", enum: [...pageSections], description: "Identificador da seção a abrir." } },
+      required: ["section"],
+      additionalProperties: false,
+    },
+    execute: ({ section }: { section: string }) => runWebMCPTool("navigate_section", () => navigateSection(section)),
+  });
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Header */}
@@ -126,7 +154,7 @@ function Index() {
           <a href="#topo"><Logo className="h-12 w-auto md:h-14" /></a>
           <nav className="hidden items-center gap-8 md:flex">
             {nav.map((n) => (
-              <a key={n.href} href={n.href} className="text-sm font-medium text-ink-foreground/80 transition hover:text-primary">
+              <a key={n.href} href={n.href} onClick={(event) => { event.preventDefault(); navigateSection(n.href.slice(1)); }} className="text-sm font-medium text-ink-foreground/80 transition hover:text-primary">
                 {n.label}
               </a>
             ))}
@@ -141,7 +169,7 @@ function Index() {
         {open && (
           <div className="border-t border-ink-foreground/10 bg-ink px-5 pb-6 md:hidden">
             {nav.map((n) => (
-              <a key={n.href} href={n.href} onClick={() => setOpen(false)} className="block py-3 font-medium text-ink-foreground">
+              <a key={n.href} href={n.href} onClick={(event) => { event.preventDefault(); navigateSection(n.href.slice(1)); }} className="block py-3 font-medium text-ink-foreground">
                 {n.label}
               </a>
             ))}
