@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "sdk_version": "3.4.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "maxcorretor",
+      "version": "1.0.0",
+      "title": "Maxcorretor"
+    },
+    "tools": [
+      {
+        "name": "list_services",
+        "title": "Serviços do MAX Corretor",
+        "description": "Consulta os serviços públicos de assessoria para imóveis de leilão apresentados na página do MAX Corretor.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_contact",
+        "title": "Contato do MAX Corretor",
+        "description": "Consulta o WhatsApp, Instagram e localização públicos do MAX Corretor, sem enviar mensagens.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
