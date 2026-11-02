@@ -158,10 +158,10 @@ function Index() {
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-4 py-1.5 text-sm font-medium tracking-wide text-ink-foreground">
             <MapPin className="h-4 w-4 text-primary" /> João Pessoa · Paraíba
           </span>
-          <h1 className="mt-8 text-4xl font-bold leading-[1.08] tracking-tight text-ink-foreground md:text-6xl">
+          <h1 className="mt-8 text-4xl font-light leading-[1.15] tracking-tight text-ink-foreground md:text-6xl">
             Imóveis de leilão
             <br />
-            <span className="font-black text-primary">
+            <span className="font-medium text-primary">
               {typed}
               <span className="ml-1 inline-block h-[0.9em] w-[3px] translate-y-[0.12em] animate-pulse bg-primary" aria-hidden="true" />
             </span>
