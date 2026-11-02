@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import logo from "@/assets/max-corretor-logo.png.asset.json";
 import hero from "@/assets/hero-joao-pessoa.jpg";
+import { AuctionAlerts, Results, Testimonials, Faq } from "@/components/extra-sections";
 
 const WHATSAPP = "https://wa.me/5583988828706?text=Ol%C3%A1%2C%20Max!%20Quero%20saber%20sobre%20im%C3%B3veis%20de%20leil%C3%A3o.";
 const INSTAGRAM = "https://instagram.com/maxcorretorpb";
@@ -260,6 +261,11 @@ function Index() {
           </ul>
         </div>
       </section>
+
+      <Results />
+      <Testimonials />
+      <Faq />
+      <AuctionAlerts />
 
       {/* CTA */}
       <section id="contato" className="px-5 pb-24">
