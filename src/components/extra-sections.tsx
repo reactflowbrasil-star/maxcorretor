@@ -32,7 +32,7 @@ export function AuctionAlerts() {
     return () => clearTimeout(t);
   }, [closed]);
 
-  const a = ALERTS[i];
+  const a = ALERTS[i] ?? ALERTS[0]!;
   return (
     <div
       role="status"
