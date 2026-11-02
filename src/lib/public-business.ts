@@ -18,10 +18,10 @@ export function contactSummary() {
   return `MAX Corretor — João Pessoa · PB\nWhatsApp: (83) 98882-8706\n${WHATSAPP}\nInstagram: ${INSTAGRAM}`;
 }
 
-export const pageSections = ["topo", "servicos", "como-funciona", "vantagens", "depoimentos", "faq", "contato"] as const;
+export const pageSections = ["topo", "imoveis", "servicos", "como-funciona", "vantagens", "depoimentos", "faq", "contato"] as const;
 
 export function validatedSection(value: unknown) {
   const section = pageSections.find((section) => section === value);
-  if (!section) throw new Error("Seção inválida; escolha topo, servicos, como-funciona, vantagens, depoimentos, faq ou contato.");
+  if (!section) throw new Error("Seção inválida; escolha topo, imoveis, servicos, como-funciona, vantagens, depoimentos, faq ou contato.");
   return section;
 }

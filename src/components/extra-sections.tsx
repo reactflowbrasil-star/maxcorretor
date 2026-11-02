@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Gavel, Star, Quote, X, ChevronDown, Home, TrendingDown, Users, Award } from "lucide-react";
+import { Gavel, Star, Quote, X, ChevronDown, Home, TrendingDown, Users, Award, MapPin, ArrowUpRight } from "lucide-react";
+import hero from "@/assets/hero-joao-pessoa.jpg";
+import { WHATSAPP } from "@/lib/public-business";
 
 const ALERTS = [
   { name: "Carlos M.", place: "Manaíra", what: "Apartamento 3 quartos", saving: "38%" },
@@ -56,6 +58,64 @@ export function AuctionAlerts() {
         </button>
       </div>
     </div>
+  );
+}
+
+const propertyCategories = [
+  { title: "Apartamentos", detail: "Opções para morar ou investir", position: "center 45%" },
+  { title: "Casas", detail: "Oportunidades em diferentes bairros", position: "center 60%" },
+  { title: "Imóveis para investimento", detail: "Encontre oportunidades de leilão", position: "center 35%" },
+];
+
+export function PropertyGallery() {
+  return (
+    <section id="imoveis" className="mx-auto max-w-7xl px-5 py-20 md:py-24" aria-labelledby="imoveis-title">
+      <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-2xl">
+          <p className="font-display text-sm font-bold uppercase tracking-[0.3em] text-primary">Oportunidades</p>
+          <h2 id="imoveis-title" className="mt-3 text-3xl font-black md:text-5xl">Imóveis para arrematar</h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Consulte oportunidades em João Pessoa e região. Os imóveis, valores e prazos mudam conforme cada leilão.
+          </p>
+        </div>
+        <a href={WHATSAPP} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-2 font-bold text-primary transition hover:text-primary-deep">
+          Consultar oportunidades <ArrowUpRight className="h-5 w-5" />
+        </a>
+      </div>
+
+      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {propertyCategories.map((property) => (
+          <article key={property.title} className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-red">
+            <div className="relative h-56 overflow-hidden bg-ink">
+              <img
+                src={hero}
+                alt={`Imagem ilustrativa de ${property.title.toLowerCase()} em João Pessoa`}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                style={{ objectPosition: property.position }}
+              />
+              <span className="absolute left-4 top-4 rounded-full bg-ink/85 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-ink-foreground backdrop-blur">
+                Consulte disponibilidade
+              </span>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-bold">{property.title}</h3>
+              <p className="mt-2 text-muted-foreground">{property.detail}</p>
+              <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><MapPin className="h-4 w-4 text-primary" /> João Pessoa e região</p>
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/30 px-5 py-3 font-bold text-primary transition hover:bg-gradient-red hover:text-primary-foreground"
+              >
+                Tenho interesse <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p className="mt-5 text-center text-xs text-muted-foreground">Imagens ilustrativas. Consulte o Max para receber anúncios ativos, valores e condições atualizadas.</p>
+    </section>
   );
 }
 

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import logo from "@/assets/max-corretor-logo.png.asset.json";
 import hero from "@/assets/hero-joao-pessoa.jpg";
-import { AuctionAlerts, Results, Testimonials, Faq } from "@/components/extra-sections";
+import { AuctionAlerts, PropertyGallery, Results, Testimonials, Faq } from "@/components/extra-sections";
 import { useWebMCP } from "use-webmcp-tool";
 import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 import { WHATSAPP, INSTAGRAM, publicServices, servicesSummary, contactSummary, pageSections, validatedSection } from "@/lib/public-business";
@@ -44,6 +44,7 @@ export const Route = createFileRoute("/")({
 });
 
 const nav = [
+  { href: "#imoveis", label: "Imóveis" },
   { href: "#servicos", label: "Serviços" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#vantagens", label: "Vantagens" },
@@ -136,7 +137,7 @@ function Index() {
   });
   useWebMCP({
     name: "navigate_section",
-    description: "Abre uma seção desta página: serviços, etapas, vantagens, depoimentos, dúvidas ou contato.",
+    description: "Abre uma seção desta página: imóveis, serviços, etapas, vantagens, depoimentos, dúvidas ou contato.",
     inputSchema: {
       type: "object",
       properties: { section: { type: "string", enum: [...pageSections], description: "Identificador da seção a abrir." } },
@@ -243,6 +244,8 @@ function Index() {
           </a>
         </div>
       </section>
+
+      <PropertyGallery />
 
       {/* Services */}
       <section id="servicos" className="mx-auto max-w-7xl px-5 py-24">
