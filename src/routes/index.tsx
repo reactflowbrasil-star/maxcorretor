@@ -73,7 +73,7 @@ function useTypewriter(phrases: string[]) {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const full = phrases[index];
+    const full = phrases[index] ?? "";
     let delay = deleting ? 35 : 70;
 
     if (!deleting && text === full) delay = 2000;
