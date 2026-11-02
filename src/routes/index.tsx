@@ -13,7 +13,6 @@ import {
   Menu,
   X,
   Check,
-  BadgePercent,
   KeyRound,
 } from "lucide-react";
 import logo from "@/assets/max-corretor-logo.png.asset.json";
@@ -116,6 +115,7 @@ function WhatsButton({ children, className = "" }: { children: React.ReactNode; 
 
 function Index() {
   const [open, setOpen] = useState(false);
+  const typed = useTypewriter(HERO_PHRASES);
 
   return (
     <div className="min-h-screen overflow-x-hidden">
