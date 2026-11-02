@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Gavel,
   FileSearch,
@@ -13,7 +13,6 @@ import {
   Menu,
   X,
   Check,
-  BadgePercent,
   KeyRound,
 } from "lucide-react";
 import logo from "@/assets/max-corretor-logo.png.asset.json";
@@ -66,6 +65,37 @@ const steps = [
   { n: "04", title: "Regularização", text: "Resolvemos a burocracia até o imóvel estar no seu nome." },
 ];
 
+const HERO_PHRASES = ["sem complicação.", "abaixo do mercado.", "com total segurança."];
+
+function useTypewriter(phrases: string[]) {
+  const [text, setText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const full = phrases[index] ?? "";
+    let delay = deleting ? 35 : 70;
+
+    if (!deleting && text === full) delay = 2000;
+    else if (deleting && text === "") delay = 400;
+
+    const t = setTimeout(() => {
+      if (!deleting) {
+        if (text === full) setDeleting(true);
+        else setText(full.slice(0, text.length + 1));
+      } else {
+        if (text === "") {
+          setDeleting(false);
+          setIndex((index + 1) % phrases.length);
+        } else setText(full.slice(0, text.length - 1));
+      }
+    }, delay);
+    return () => clearTimeout(t);
+  }, [text, deleting, index, phrases]);
+
+  return text;
+}
+
 function Logo({ className = "" }: { className?: string }) {
   return <img src={logo.url} alt="MAX Corretor" className={className} width={1920} height={720} />;
 }
@@ -85,6 +115,7 @@ function WhatsButton({ children, className = "" }: { children: React.ReactNode; 
 
 function Index() {
   const [open, setOpen] = useState(false);
+  const typed = useTypewriter(HERO_PHRASES);
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -119,38 +150,30 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section id="topo" className="relative isolate flex min-h-[100svh] items-center bg-ink pt-20">
+      <section id="topo" className="relative isolate flex min-h-[100svh] items-center bg-ink pt-20 font-hero">
         <img src={hero} alt="Imóveis em João Pessoa" width={1600} height={1008} className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/30" />
-        <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 lg:grid-cols-2 lg:items-center">
-          <div>
-            <Logo className="mb-8 w-64 md:w-96" />
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-4 py-1.5 text-sm font-semibold text-ink-foreground">
-              <MapPin className="h-4 w-4 text-primary" /> João Pessoa · Paraíba
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/80 via-ink/70 to-ink" />
+        <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-5 py-16 text-center">
+          <Logo className="mb-10 w-64 md:w-96" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-4 py-1.5 text-sm font-medium tracking-wide text-ink-foreground">
+            <MapPin className="h-4 w-4 text-primary" /> João Pessoa · Paraíba
+          </span>
+          <h1 className="mt-8 text-4xl font-bold leading-[1.08] tracking-tight text-ink-foreground md:text-6xl">
+            Imóveis de leilão
+            <br />
+            <span className="font-black text-primary">
+              {typed}
+              <span className="ml-1 inline-block h-[0.9em] w-[3px] translate-y-[0.12em] animate-pulse bg-primary" aria-hidden="true" />
             </span>
-            <h1 className="mt-6 text-4xl font-black leading-[1.05] text-ink-foreground md:text-6xl">
-              Imóveis de leilão <span className="text-primary">sem complicação.</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-ink-foreground/75">
-              Arrematação, documentação, análise de riscos, regularização e financiamento. Compre bem abaixo do mercado com quem entende do assunto.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <WhatsButton><MessageCircle className="h-5 w-5" /> Quero uma oportunidade</WhatsButton>
-              <a href="#servicos" className="inline-flex items-center justify-center gap-2 rounded-full border border-ink-foreground/25 px-7 py-4 font-display font-bold text-ink-foreground transition hover:border-primary hover:text-primary">
-                Ver serviços <ArrowRight className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-          <div className="hidden lg:block">
-            <div className="ml-auto max-w-sm rounded-2xl border border-ink-foreground/10 bg-ink-soft/80 p-8 backdrop-blur">
-              <BadgePercent className="h-10 w-10 text-primary" />
-              <p className="mt-4 font-display text-2xl font-bold text-ink-foreground">Oportunidades reais com desconto</p>
-              <ul className="mt-6 space-y-3 text-ink-foreground/80">
-                {["Análise jurídica do edital", "Acompanhamento no leilão", "Regularização completa"].map((t) => (
-                  <li key={t} className="flex items-center gap-3"><Check className="h-5 w-5 text-primary" /> {t}</li>
-                ))}
-              </ul>
-            </div>
+          </h1>
+          <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed tracking-wide text-ink-foreground/75 md:text-xl">
+            Arrematação, documentação, análise de riscos, regularização e financiamento. Compre bem abaixo do mercado com quem entende do assunto.
+          </p>
+          <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row">
+            <WhatsButton><MessageCircle className="h-5 w-5" /> Quero uma oportunidade</WhatsButton>
+            <a href="#servicos" className="inline-flex items-center justify-center gap-2 rounded-full border border-ink-foreground/25 px-7 py-4 font-hero font-bold text-ink-foreground transition hover:border-primary hover:text-primary">
+              Ver serviços <ArrowRight className="h-5 w-5" />
+            </a>
           </div>
         </div>
       </section>
