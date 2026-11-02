@@ -66,6 +66,37 @@ const steps = [
   { n: "04", title: "Regularização", text: "Resolvemos a burocracia até o imóvel estar no seu nome." },
 ];
 
+const HERO_PHRASES = ["sem complicação.", "abaixo do mercado.", "com total segurança."];
+
+function useTypewriter(phrases: string[]) {
+  const [text, setText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const full = phrases[index];
+    let delay = deleting ? 35 : 70;
+
+    if (!deleting && text === full) delay = 2000;
+    else if (deleting && text === "") delay = 400;
+
+    const t = setTimeout(() => {
+      if (!deleting) {
+        if (text === full) setDeleting(true);
+        else setText(full.slice(0, text.length + 1));
+      } else {
+        if (text === "") {
+          setDeleting(false);
+          setIndex((index + 1) % phrases.length);
+        } else setText(full.slice(0, text.length - 1));
+      }
+    }, delay);
+    return () => clearTimeout(t);
+  }, [text, deleting, index, phrases]);
+
+  return text;
+}
+
 function Logo({ className = "" }: { className?: string }) {
   return <img src={logo.url} alt="MAX Corretor" className={className} width={1920} height={720} />;
 }
