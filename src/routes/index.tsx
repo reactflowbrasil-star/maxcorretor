@@ -219,6 +219,31 @@ function Index() {
         </div>
       </div>
 
+      {/* Bid CTA */}
+      <section className="bg-ink px-5 py-14 md:py-20" aria-labelledby="dar-lance-title">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 rounded-3xl border border-ink-foreground/10 bg-ink-soft p-8 md:flex-row md:items-center md:p-12">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+              <Gavel className="h-4 w-4" /> Assessoria para arrematar
+            </span>
+            <h2 id="dar-lance-title" className="mt-5 text-3xl font-black text-ink-foreground md:text-4xl">
+              Encontrou um imóvel? Vamos dar o próximo lance com segurança.
+            </h2>
+            <p className="mt-4 text-lg text-ink-foreground/70">
+              Envie o link do imóvel ao Max. Ele ajuda a analisar o edital, os riscos e os próximos passos antes do seu lance.
+            </p>
+          </div>
+          <a
+            href={`https://wa.me/5583988828706?text=${encodeURIComponent("Olá, Max! Quero dar um lance em um imóvel de leilão. Vou enviar o link para você analisar.")}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-red px-7 py-4 font-display font-bold text-primary-foreground shadow-red transition hover:-translate-y-0.5 hover:brightness-110 sm:w-auto"
+          >
+            <MessageCircle className="h-5 w-5" /> Quero dar um lance
+          </a>
+        </div>
+      </section>
+
       {/* Services */}
       <section id="servicos" className="mx-auto max-w-7xl px-5 py-24">
         <div className="max-w-2xl">
