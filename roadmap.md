@@ -1,3 +1,3 @@
 - [x] Add public read-only MCP tools for services and contact information.
 - [x] Add browser-local service, contact and section-navigation tools.
-- [ ] Verify generated MCP catalog and page navigation.
+- [x] Verify generated MCP catalog, both public tool calls and page navigation; browser-native WebMCP execution is unavailable in the test browser.
