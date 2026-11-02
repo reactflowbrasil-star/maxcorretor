@@ -1,24 +1,277 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  Gavel,
+  FileSearch,
+  FileCheck2,
+  Landmark,
+  ShieldCheck,
+  MapPin,
+  MessageCircle,
+  Instagram,
+  ArrowRight,
+  Menu,
+  X,
+  Check,
+  BadgePercent,
+  KeyRound,
+} from "lucide-react";
+import logo from "@/assets/max-corretor-logo.png.asset.json";
+import hero from "@/assets/hero-joao-pessoa.jpg";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const WHATSAPP = "https://wa.me/5583988828706?text=Ol%C3%A1%2C%20Max!%20Quero%20saber%20sobre%20im%C3%B3veis%20de%20leil%C3%A3o.";
+const INSTAGRAM = "https://instagram.com/maxcorretorpb";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "MAX Corretor | Imóveis de leilão em João Pessoa" },
+      {
+        name: "description",
+        content:
+          "Imóveis de leilão sem complicação: arrematação, documentação, análise de riscos, regularização e financiamento em João Pessoa.",
+      },
+      { property: "og:title", content: "MAX Corretor | Imóveis de leilão em João Pessoa" },
+      {
+        property: "og:description",
+        content: "Compre imóveis de leilão com segurança e assessoria completa do início às chaves.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const nav = [
+  { href: "#servicos", label: "Serviços" },
+  { href: "#como-funciona", label: "Como funciona" },
+  { href: "#vantagens", label: "Vantagens" },
+  { href: "#contato", label: "Contato" },
+];
+
+const services = [
+  { icon: Gavel, title: "Arrematação", text: "Acompanhamos você em cada lance, do edital ao auto de arrematação." },
+  { icon: FileSearch, title: "Documentação", text: "Análise completa de matrícula, débitos e pendências do imóvel." },
+  { icon: ShieldCheck, title: "Análise de riscos", text: "Avaliamos ocupação, dívidas e riscos jurídicos antes de você investir." },
+  { icon: FileCheck2, title: "Regularização", text: "Cuidamos do registro, imissão na posse e transferência." },
+  { icon: Landmark, title: "Financiamento", text: "Orientação para financiar seu imóvel de leilão com segurança." },
+  { icon: KeyRound, title: "Até as chaves", text: "Assessoria completa até você estar com o imóvel em mãos." },
+];
+
+const steps = [
+  { n: "01", title: "Conversa inicial", text: "Entendemos seu objetivo: morar, investir ou revender." },
+  { n: "02", title: "Seleção e análise", text: "Buscamos oportunidades e analisamos edital, documentos e riscos." },
+  { n: "03", title: "Arrematação", text: "Planejamos o lance e acompanhamos o leilão com você." },
+  { n: "04", title: "Regularização", text: "Resolvemos a burocracia até o imóvel estar no seu nome." },
+];
+
+function Logo({ className = "" }: { className?: string }) {
+  return <img src={logo.url} alt="MAX Corretor" className={className} width={1920} height={720} />;
+}
+
+function WhatsButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
+    <a
+      href={WHATSAPP}
+      target="_blank"
+      rel="noreferrer"
+      className={`inline-flex items-center justify-center gap-2 rounded-full bg-gradient-red px-7 py-4 font-display font-bold text-primary-foreground shadow-red transition hover:-translate-y-0.5 hover:brightness-110 ${className}`}
     >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+      {children}
+    </a>
+  );
+}
+
+function Index() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen overflow-x-hidden">
+      {/* Header */}
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-ink-foreground/10 bg-ink/90 backdrop-blur">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5">
+          <a href="#topo"><Logo className="h-12 w-auto md:h-14" /></a>
+          <nav className="hidden items-center gap-8 md:flex">
+            {nav.map((n) => (
+              <a key={n.href} href={n.href} className="text-sm font-medium text-ink-foreground/80 transition hover:text-primary">
+                {n.label}
+              </a>
+            ))}
+            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition hover:bg-primary-deep">
+              Falar no WhatsApp
+            </a>
+          </nav>
+          <button aria-label="Menu" onClick={() => setOpen(!open)} className="text-ink-foreground md:hidden">
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
+        {open && (
+          <div className="border-t border-ink-foreground/10 bg-ink px-5 pb-6 md:hidden">
+            {nav.map((n) => (
+              <a key={n.href} href={n.href} onClick={() => setOpen(false)} className="block py-3 font-medium text-ink-foreground">
+                {n.label}
+              </a>
+            ))}
+            <WhatsButton className="mt-3 w-full"><MessageCircle className="h-5 w-5" /> Falar no WhatsApp</WhatsButton>
+          </div>
+        )}
+      </header>
+
+      {/* Hero */}
+      <section id="topo" className="relative isolate flex min-h-[100svh] items-center bg-ink pt-20">
+        <img src={hero} alt="Imóveis em João Pessoa" width={1600} height={1008} className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/30" />
+        <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 lg:grid-cols-2 lg:items-center">
+          <div>
+            <Logo className="mb-8 w-64 md:w-96" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-4 py-1.5 text-sm font-semibold text-ink-foreground">
+              <MapPin className="h-4 w-4 text-primary" /> João Pessoa · Paraíba
+            </span>
+            <h1 className="mt-6 text-4xl font-black leading-[1.05] text-ink-foreground md:text-6xl">
+              Imóveis de leilão <span className="text-primary">sem complicação.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-ink-foreground/75">
+              Arrematação, documentação, análise de riscos, regularização e financiamento. Compre bem abaixo do mercado com quem entende do assunto.
+            </p>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <WhatsButton><MessageCircle className="h-5 w-5" /> Quero uma oportunidade</WhatsButton>
+              <a href="#servicos" className="inline-flex items-center justify-center gap-2 rounded-full border border-ink-foreground/25 px-7 py-4 font-display font-bold text-ink-foreground transition hover:border-primary hover:text-primary">
+                Ver serviços <ArrowRight className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+          <div className="hidden lg:block">
+            <div className="ml-auto max-w-sm rounded-2xl border border-ink-foreground/10 bg-ink-soft/80 p-8 backdrop-blur">
+              <BadgePercent className="h-10 w-10 text-primary" />
+              <p className="mt-4 font-display text-2xl font-bold text-ink-foreground">Oportunidades reais com desconto</p>
+              <ul className="mt-6 space-y-3 text-ink-foreground/80">
+                {["Análise jurídica do edital", "Acompanhamento no leilão", "Regularização completa"].map((t) => (
+                  <li key={t} className="flex items-center gap-3"><Check className="h-5 w-5 text-primary" /> {t}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Red strip */}
+      <div className="bg-gradient-red">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-5 py-8 text-center text-primary-foreground md:grid-cols-4">
+          {[["Leilão", "judicial e extrajudicial"], ["Caixa", "e bancos"], ["100%", "assessoria"], ["JP", "e região"]].map(([a, b]) => (
+            <div key={a}>
+              <p className="font-display text-3xl font-black">{a}</p>
+              <p className="text-sm opacity-85">{b}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Services */}
+      <section id="servicos" className="mx-auto max-w-7xl px-5 py-24">
+        <div className="max-w-2xl">
+          <p className="font-display text-sm font-bold uppercase tracking-[0.3em] text-primary">Serviços</p>
+          <h2 className="mt-3 text-3xl font-black md:text-5xl">Tudo o que você precisa para arrematar com segurança</h2>
+        </div>
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map(({ icon: Icon, title, text }) => (
+            <div key={title} className="group rounded-2xl border bg-card p-8 transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-red">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-accent text-primary transition group-hover:bg-gradient-red group-hover:text-primary-foreground">
+                <Icon className="h-7 w-7" />
+              </div>
+              <h3 className="mt-6 text-xl font-bold">{title}</h3>
+              <p className="mt-2 text-muted-foreground">{text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Steps */}
+      <section id="como-funciona" className="bg-ink py-24">
+        <div className="mx-auto max-w-7xl px-5">
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <p className="font-display text-sm font-bold uppercase tracking-[0.3em] text-primary">Como funciona</p>
+              <h2 className="mt-3 text-3xl font-black text-ink-foreground md:text-5xl">Do leilão às chaves em 4 passos</h2>
+            </div>
+            <Logo className="w-48 opacity-90 md:w-64" />
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s) => (
+              <div key={s.n} className="rounded-2xl border border-ink-foreground/10 bg-ink-soft p-8">
+                <span className="font-display text-5xl font-black text-primary">{s.n}</span>
+                <h3 className="mt-4 text-xl font-bold text-ink-foreground">{s.title}</h3>
+                <p className="mt-2 text-ink-foreground/65">{s.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Advantages */}
+      <section id="vantagens" className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-2 lg:items-center">
+        <div className="relative">
+          <img src={hero} alt="Imóvel em João Pessoa" loading="lazy" width={1600} height={1008} className="aspect-[4/3] w-full rounded-2xl object-cover" />
+          <div className="absolute -bottom-6 -right-2 rounded-2xl bg-ink p-5 shadow-red md:-right-6">
+            <Logo className="w-40" />
+          </div>
+        </div>
+        <div>
+          <p className="font-display text-sm font-bold uppercase tracking-[0.3em] text-primary">Por que a MAX</p>
+          <h2 className="mt-3 text-3xl font-black md:text-5xl">Segurança para investir onde poucos sabem</h2>
+          <p className="mt-6 text-lg text-muted-foreground">
+            Leilão pode ser a melhor forma de comprar um imóvel — quando você tem do seu lado quem conhece edital, riscos e burocracia.
+          </p>
+          <ul className="mt-8 space-y-4">
+            {[
+              "Imóveis com valores abaixo do mercado",
+              "Análise de riscos antes de qualquer lance",
+              "Atendimento próximo e transparente",
+              "Apoio na regularização e no financiamento",
+            ].map((t) => (
+              <li key={t} className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-red text-primary-foreground"><Check className="h-4 w-4" /></span>
+                <span className="font-medium">{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contato" className="px-5 pb-24">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-gradient-red px-8 py-16 text-center md:py-20">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-ink/15" />
+          <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-ink/15" />
+          <div className="relative">
+            <h2 className="text-3xl font-black text-primary-foreground md:text-5xl">Seu próximo imóvel pode estar no leilão</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-primary-foreground/85">Fale agora com o Max e receba oportunidades em João Pessoa.</p>
+            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-8 py-4 font-display font-bold text-ink-foreground transition hover:-translate-y-0.5">
+              <MessageCircle className="h-5 w-5 text-primary" /> (83) 98882-8706
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-ink">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-5 py-14 md:flex-row md:justify-between">
+          <Logo className="w-56" />
+          <div className="flex flex-col items-center gap-3 text-ink-foreground/70 md:items-end">
+            <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> João Pessoa · PB</span>
+            <div className="flex gap-3">
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="rounded-full bg-ink-soft p-3 text-ink-foreground transition hover:bg-primary"><MessageCircle className="h-5 w-5" /></a>
+              <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" className="rounded-full bg-ink-soft p-3 text-ink-foreground transition hover:bg-primary"><Instagram className="h-5 w-5" /></a>
+            </div>
+          </div>
+        </div>
+        <p className="border-t border-ink-foreground/10 py-6 text-center text-sm text-ink-foreground/50">© {new Date().getFullYear()} MAX Corretor. Todos os direitos reservados.</p>
+      </footer>
+
+      {/* Floating WhatsApp */}
+      <a href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-red text-primary-foreground shadow-red transition hover:scale-110">
+        <MessageCircle className="h-7 w-7" />
+      </a>
     </div>
   );
 }
