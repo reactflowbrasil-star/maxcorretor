@@ -83,3 +83,18 @@
 @utility slash {
   clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
 }
+
+.brand-intro {
+  animation: brand-intro 5s ease-in-out forwards;
+}
+
+@keyframes brand-intro {
+  0% { opacity: 0; visibility: visible; }
+  12% { opacity: 1; visibility: visible; }
+  84% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-intro { animation-duration: 1ms; }
+}

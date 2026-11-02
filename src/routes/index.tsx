@@ -149,6 +149,10 @@ function Index() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <div aria-hidden="true" className="brand-intro fixed inset-0 z-[100] flex items-center justify-center bg-black">
+        <Logo className="h-auto max-h-[45vh] w-[min(82vw,1000px)] object-contain" />
+      </div>
+
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-ink-foreground/10 bg-ink/90 backdrop-blur">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5">
