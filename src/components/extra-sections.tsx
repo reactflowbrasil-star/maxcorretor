@@ -48,7 +48,7 @@ export function AuctionAlerts() {
         </span>
         <div className="min-w-0 flex-1 text-sm">
           <p className="text-xs font-bold uppercase tracking-widest text-primary">Arrematado agora</p>
-          <p className="mt-1"><strong>{a.name}</strong> arrematou {a.what} em <strong>{a.place}</strong></p>
+          <p className="mt-1"><strong>{a.name}</strong> arrematou {a.what} em <strong className="text-primary">{a.place}</strong></p>
           <p className="mt-1 text-ink-foreground/60">{a.saving} abaixo do valor de mercado</p>
         </div>
         <button aria-label="Fechar alertas" onClick={() => setClosed(true)} className="text-ink-foreground/50 hover:text-ink-foreground">
